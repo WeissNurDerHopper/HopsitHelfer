@@ -1,11 +1,13 @@
-local M = {}
-
+M = {}
+--Definiert zwei Lua Tables die das Alphabet in gross und klein enthalten
 AlphabetSmall = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
 AlphabetLarge = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"}
 M.HoppedLetter = {}
 
+--Findet die Position eines Buchstaben im Alphabet und returned sonst 0
 M.AlphabetPosition = function (char)
 
+  --Sucht im grossen Alphabet
   for i, v in pairs(AlphabetLarge) do
 
     if v == char then
@@ -15,6 +17,7 @@ M.AlphabetPosition = function (char)
     end
   end
 
+  --Sucht im kleinen Alphabet
   for i, v in pairs(AlphabetSmall) do
 
     if v == char then
@@ -41,9 +44,7 @@ M.HoppedLetter.LastInText = function(textlänge, intext)
 			return keys 
 
 		end
-
 		if keys > Teva then
-
 
 			Teva = keys
 
@@ -73,8 +74,6 @@ end
 --Eine recursive Funktion die das Spiel für einen Spieler simuliert
 M.Hop = function (start_pos, hoplen, last_letter, text)
 
-  --Debugging
-  print("function does things: ",start_pos, hoplen, string.len(text))
   --Für bessere Lesbarkeit definiere ich diese Variablen
   local current_letter = string.sub(text, start_pos, start_pos)
   local letter_index = M.AlphabetPosition(current_letter)
@@ -83,10 +82,9 @@ M.Hop = function (start_pos, hoplen, last_letter, text)
   if start_pos > string.len(text) then
 
     if M.CheckForDoubles(start_pos + hoplen) then
-      
-      --TODO: Hier für Fortschritt nach dem es folständig durchgelaufen ist
-      print("Die Hopper werden sich an Position '", start_pos + hoplen, "' überlappen. Ändere den Buchstaben '", string.sub(text, M.HoppedLetter.LastInText(), M.HoppedLetter.LastInText()) , "' an Position '", M.HoppedLetter.LastInText(), "'.")
 
+	  --gibt die Debuginformation wenn sich die Springer nach dem Text erst überkreuzen (ist wichtig wenn der Text noch nicht zuende geschrieben ist
+      print("Die Hopper werden sich an Position '", start_pos + hoplen, "' überlappen. Ändere den Buchstaben '", string.sub(text, M.HoppedLetter.LastInText(), M.HoppedLetter.LastInText()) , "' an Position '", M.HoppedLetter.LastInText(), "'.")
 
       return("Done")
 
@@ -141,24 +139,12 @@ end
 
 M.Configs = function ()
 
-	--setzt einen Hotkey der die Main Funktion ruft dieser ist der Leader key (bei meinem setup <space>) + "h"
-	vim.keymap.set("n", "<leader>h", function()
-
-		M.Main() 
-
+	M.Con = false
+	--setzt einen Hotkey der die Main Funktion ruft dieser ist der Leader key (bei meinem setup <space>) + "h" + "h"
+	vim.keymap.set("n","<leader>hh", function()
+		M.Main()
 	end)
 
-	vim.keymap.set("n", "<leader>tt", function()
-
-		vim.print("oui")
-
-	end)
-
-	vim.keymap.set("n", "<leader>th", function()
-
-		vim.print(table.concat(vim.api.nvim_buf_get_lines(0,0,vim.api.nvim_buf_line_count(0),true)))
-
-	end)
 end
 
 
