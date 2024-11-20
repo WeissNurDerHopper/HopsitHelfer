@@ -1,7 +1,7 @@
 this is the config for Lazy
 
 return {
-  "WeissNurDerHopper/HopsitHelfer.git",
+  "WeissNurDerHopper/HopsitHelfer",
   lazy = false,
   config = function()
 	  N = require "NeoHopsit"
